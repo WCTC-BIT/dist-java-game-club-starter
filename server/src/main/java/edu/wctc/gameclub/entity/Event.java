@@ -1,14 +1,15 @@
 package edu.wctc.gameclub.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name="event")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,13 @@ public class Event {
     @Column(name = "event_date")
     private LocalDateTime date;
 
+    @Column(name="location")
     private String location;
 
+    @Column(name="description")
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "host_id", referencedColumnName = "member_id")
+    @JoinColumn(name = "host_id")
     private Member host;
 }

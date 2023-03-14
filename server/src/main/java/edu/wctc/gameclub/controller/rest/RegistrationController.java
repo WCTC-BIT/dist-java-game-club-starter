@@ -1,6 +1,8 @@
 package edu.wctc.gameclub.controller.rest;
 
 import edu.wctc.gameclub.entity.Registration;
+import edu.wctc.gameclub.exception.DuplicateRegistrationException;
+import edu.wctc.gameclub.exception.ResourceNotFoundException;
 import edu.wctc.gameclub.service.EventService;
 import edu.wctc.gameclub.service.MemberService;
 import edu.wctc.gameclub.service.RegistrationService;
@@ -17,26 +19,15 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @Autowired
-    private MemberService memberService;
-
-    @Autowired
-    private EventService eventService;
-
-
-    @GetMapping
-    public List<Registration> getAllRegistrations() {
-        return registrationService.getAllRegistrations();
-    }
-
     @PostMapping("/bad")
-    public Registration makeReservation(@RequestBody Registration reg) {
+    public Registration register(@RequestBody Registration reg) {
         try {
-            if (!registrationService.isRegistered(reg)) {
-                registrationService.register(reg);
-            }
-            return reg;
-        } catch (Exception e) {
+            return registrationService.register(reg);
+        } catch (DuplicateRegistrationException ex) {
+            throw new RuntimeException(ex);
+        } catch (ResourceNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid registration", e);
         }
     }
