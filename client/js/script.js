@@ -6,45 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function rsvp() {
-    let id = document.querySelector("#eventId").value;
-    let email = document.querySelector("#email").value;
 
-    if (id && id > 0 && email) {
-        const url = "http://localhost:8080/api/rsvp";
-
-        const data = {
-            eventId: id,
-            memberEmail: email
-        };
-
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        };
-
-        fetch(url, requestOptions)
-            .then(response => {
-                if (response.ok)
-                    return response.json();
-                else
-                    return response.json()
-                        .then(data => {throw new Error(data.message)});
-            })
-            .then(data => confirmRsvp(data))
-            .catch(err => handleError(err));
-    }
 }
 
 async function loadEvents() {
     const url = "http://localhost:8080/api/events";
-    const requestOptions = {
-        method: "GET"
-    };
 
-    fetch(url, requestOptions)
+    // GET is the default HTTP method for fetch
+    fetch(url)
         .then(response => {
             if (response.ok)
                 return response.json();
