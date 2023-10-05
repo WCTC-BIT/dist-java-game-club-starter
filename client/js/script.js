@@ -31,7 +31,7 @@ function confirmRsvp(data) {
 };
 
 function populateCalendar(data) {
-    // data.forEach(element => element.type = "Event");
+    data.forEach(element => element.type = "Event");
 
     $("#evoCalendar")
         .evoCalendar({
